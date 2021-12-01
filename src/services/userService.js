@@ -8,11 +8,9 @@ const isValidUser = (name, email, password) => {
 };
 
 const userRole = (_role, path) => {
-    if (path.includes('admin')) {
-      return 'admin';
-    }
-    return 'user';
-  };
+  if (path.includes('admin')) return 'admin';
+  return 'user';
+};
 
 const createUser = async ({ name, email, password, role }) => {
   const user = await model.findByEmail(email);
