@@ -8,9 +8,9 @@ const OPTIONS = {
 
 const MONGO_DB_URL = `mongodb://${
   process.env.HOST || 'mongodb'
-}:27017/StoreManager`;
+}:27017/Cookmaster`;
 
-const DB_NAME = 'StoreManager';
+const DB_NAME = 'Cookmaster';
 
 let db = null;
 
