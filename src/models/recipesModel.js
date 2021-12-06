@@ -1,8 +1,8 @@
 const { ObjectId } = require('mongodb');
-const connection = require('./connection');
+const connect = require('./connection');
 
 const create = async ({ name, ingredients, preparation }) => {
-  const recipe = await connection().then((db) => db.collection('recipes'));
+  const recipe = await connect().then((db) => db.collection('recipes'));
   const { insertedId: id } = await recipe.insertOne({
     name,
     ingredients,
@@ -13,16 +13,16 @@ const create = async ({ name, ingredients, preparation }) => {
 };
 
 const getAll = () =>
-  connection().then((db) => db.collection('recipes').find().toArray());
+  connect().then((db) => db.collection('recipes').find().toArray());
 
 const getById = (id) => {
   if (!ObjectId.isValid(id)) return null;
-  return connection().then((db) =>
+  return connect().then((db) =>
     db.collection('recipes').findOne(new ObjectId(id)));
 };
 
 const update = (id, name, ingredients, preparation) => {
-  connection().then((db) =>
+  connect().then((db) =>
     db
       .collection('recipes')
       .updateOne(
@@ -36,7 +36,7 @@ const update = (id, name, ingredients, preparation) => {
 const deleteById = async (id) => {
   if (!ObjectId.isValid(id)) return null;
 
-  const recipes = await connection().then((db) => db.collection('recipes'));
+  const recipes = await connect().then((db) => db.collection('recipes'));
 
   await recipes.deleteOne({ _id: ObjectId(id) });
   return id;
@@ -45,7 +45,7 @@ const deleteById = async (id) => {
 const uploadImage = async ({ id, imageURL }) => {
   if (!ObjectId.isValid(id)) return null;
 
-  const recipeCollection = await connection().then((db) =>
+  const recipeCollection = await connect().then((db) =>
     db.collection('recipes'));
 
   await recipeCollection.updateOne(
