@@ -1,6 +1,6 @@
-const connect = require('./connection');
+const connection = require('./connection');
 
 const findUser = async ({ email, password }) =>
-  connect().then((db) => db.collection('users').findOne({ email, password }));
+  connection().then((db) => db.collection('users').findOne({ email, password }));
 
-module.exports = { findUser };
+module.exports = findUser;
