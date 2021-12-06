@@ -7,7 +7,7 @@ const auth = async (request, response, next) => {
   const token = request.headers.authorization;
 
   if (!token) {
-    return response.status(401).json({ message: 'Token not found' });
+    return response.status(401).json({ message: 'missing auth token' });
   }
 
   try {
@@ -23,7 +23,7 @@ const auth = async (request, response, next) => {
     request.user = user;
 
     next();
-} catch (error) {
+  } catch (error) {
     return response.status(401).json({ message: 'jwt malformed' });
   }
 };

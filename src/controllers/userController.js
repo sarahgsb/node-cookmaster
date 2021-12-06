@@ -4,7 +4,12 @@ const create = async (request, response) => {
   const { name, email, password, role } = request.body;
   const { path } = request;
 
-  const { message } = await service.createUser({ name, email, password, role });
+  const { id, message } = await service.createUser({
+    name,
+    email,
+    password,
+    role,
+  });
 
   if (message === 'Invalid entries. Try again.') {
     return response.status(400).json({ message });
@@ -15,11 +20,7 @@ const create = async (request, response) => {
   }
 
   response.status(201).json({
-    user: {
-      name,
-      email,
-      role: service.userRole(role, path),
-    },
+    user: { name, email, role: service.userRole(role, path), _id: id },
   });
 };
 
