@@ -15,10 +15,17 @@ const create = async ({ name, ingredients, preparation }) => {
 const getAll = () =>
   connect().then((db) => db.collection('recipes').find().toArray());
 
-const getById = (id) => {
-  if (!ObjectId.isValid(id)) return null;
-  return connect().then((db) =>
-    db.collection('recipes').findOne(new ObjectId(id)));
+// const getById = (id) => {
+//   if (!ObjectId.isValid(id)) return null;
+//   return connect().then((db) =>
+//     db.collection('recipes').findOne(new ObjectId(id)));
+// };
+
+const getById = async (id) => {
+  const recipe = await connect()
+  .then((db) => db.collection('recipes'));
+  const recipes = await recipe.findOne({ _id: ObjectId(id) });
+  return recipes;
 };
 
 const update = (id, name, ingredients, preparation) => {
@@ -45,10 +52,10 @@ const deleteById = async (id) => {
 const uploadImage = async ({ id, imageURL }) => {
   if (!ObjectId.isValid(id)) return null;
 
-  const recipeCollection = await connect().then((db) =>
+  const recipe = await connect().then((db) =>
     db.collection('recipes'));
 
-  await recipeCollection.updateOne(
+  await recipe.updateOne(
     { _id: ObjectId(id) },
     {
       $set: { imageURL },
